@@ -1,0 +1,79 @@
+[
+  {
+    "id": 0,
+    "productName": "Fresh Avocados",
+    "image": "🥑",
+    "from": "Spain",
+    "nutrients": "Vitamin B, Vitamin K",
+    "quantity": "4 🥑",
+    "price": 6.5,
+    "organic": true,
+    "description": "A ripe, creamy avocado full of flavor and nutrients. Perfect for salads, guacamole, or just on toast."
+  },
+  {
+    "id": 1,
+    "productName": "Juicy Orange",
+    "image": "🍊",
+    "from": "Morocco",
+    "nutrients": "Vitamin C, Fiber",
+    "quantity": "6 🍊",
+    "price": 5,
+    "organic": true,
+    "description": "Sweet and juicy oranges, rich in vitamin C. Great for fresh juice or as a healthy snack."
+  },
+  {
+    "id": 2,
+    "productName": "Red Apple",
+    "image": "🍎",
+    "from": "Italy",
+    "nutrients": "Vitamin C, Fiber",
+    "quantity": "5 🍎",
+    "price": 4.2,
+    "organic": false,
+    "description": "Crisp and refreshing apples with a natural sweetness. Ideal for snacking or baking."
+  },
+  {
+    "id": 3,
+    "productName": "Banana Bunch",
+    "image": "🍌",
+    "from": "Ecuador",
+    "nutrients": "Vitamin B6, Potassium",
+    "quantity": "7 🍌",
+    "price": 3.5,
+    "organic": true,
+    "description": "Soft and sweet bananas, high in potassium. Perfect for breakfast smoothies or a quick snack."
+  },
+  {
+    "id": 4,
+    "productName": "Green Grapes",
+    "image": "🍇",
+    "from": "France",
+    "nutrients": "Vitamin C, Vitamin K",
+    "quantity": "1 bunch 🍇",
+    "price": 4.8,
+    "organic": false,
+    "description": "Seedless green grapes, juicy and refreshing. A healthy snack or a great addition to cheese boards."
+  },
+  {
+    "id": 5,
+    "productName": "Sweet Strawberries",
+    "image": "🍓",
+    "from": "Egypt",
+    "nutrients": "Vitamin C, Antioxidants",
+    "quantity": "12 🍓",
+    "price": 6.2,
+    "organic": true,
+    "description": "Fresh strawberries with a sweet aroma and taste. Delicious in desserts, jams, or eaten fresh."
+  },
+  {
+    "id": 6,
+    "productName": "Watermelon Slice",
+    "image": "🍉",
+    "from": "Turkey",
+    "nutrients": "Vitamin C, Hydration",
+    "quantity": "1/2 🍉",
+    "price": 7,
+    "organic": false,
+    "description": "Refreshing watermelon, juicy and hydrating. A summer favorite for cooling off on hot days."
+  }
+]
