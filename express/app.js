@@ -1,7 +1,6 @@
-const fs = require('fs');
 const express = require('express');
 const morgan = require('morgan');
-const { error } = require('console');
+
 const app = express();
 
 // TASK: Serving static files
@@ -29,25 +28,22 @@ app.use((req, res, next) => {
 });
 
 // TEMP: ==================================================
-{
-    app.get(['/', '/overview'], (req, res) => {
-        res.status(200).send(overview);
-    });
+app.get(['/', '/overview'], (req, res) => {
+    res.status(200).redirect('/overview.html');
+});
+// app.post('/', (req, res) => {
+//   res.send('You can post to this endpoint...');
+// });
 
-    // app.post('/', (req, res) => {
-    //   res.send('You can post to this endpoint...');
-    // });
-}
 // TEMP: ==================================================
 // INFO: API (CRUD) Operations (Routed to tourRoute.js & userRoute.js)
-{
-    // app.get('/api/v1/tours', getAllTours); // TODO: GET All Tours
-    // app.route('/api/v1/tours').get(getAllTours); // TODO: GET All Tours (Route)
-    // app.get('/api/v1/tours/:id', getTour); // TODO: GET Tour By ID
-    // app.post('/api/v1/tours', createTour); // TODO: Create Tour (POST)
-    // app.patch('/api/v1/tours/:id', updateTour); // TODO: Update Tour By ID (PATCH)
-    // app.delete('/api/v1/tours/:id', deleteTour); // TODO: Delete Tour By ID (DELETE)
-}
+// app.get('/api/v1/tours', getAllTours); // TODO: GET All Tours
+// app.route('/api/v1/tours').get(getAllTours); // TODO: GET All Tours (Route)
+// app.get('/api/v1/tours/:id', getTour); // TODO: GET Tour By ID
+// app.post('/api/v1/tours', createTour); // TODO: Create Tour (POST)
+// app.patch('/api/v1/tours/:id', updateTour); // TODO: Update Tour By ID (PATCH)
+// app.delete('/api/v1/tours/:id', deleteTour); // TODO: Delete Tour By ID (DELETE)
+
 // TODO: ROUTES
 // INFO: (moved to routes/tourRoute.js & routes/userRoute.js)
 app.use('/api/v1/tours', toursRouter);
