@@ -1,7 +1,11 @@
 const Tour = require('../models/tourModel');
 const APIFeatures = require('../utils/apiFeatures');
 const AppError = require('../utils/appError');
+<<<<<<< HEAD
 const { catchAsync } = require('../utils/catchAsync');
+=======
+const catchAsync = require('../utils/catchAsync');
+>>>>>>> 3cbeeb6 (until authorization start)
 
 const aliasTopTours = (req, res, next) => {
     const q = { ...req.query };
