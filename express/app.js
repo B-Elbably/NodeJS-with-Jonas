@@ -1,62 +1,76 @@
 const express = require('express');
 const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
+const hpp = require('hpp');
+
+const AppError = require('./utils/appError');
+const globalErrorHandler = require('./controllers/errorController');
+const tourRouter = require('./routes/tourRoutes');
+const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
-// TASK: Serving static files
-// const overview = fs.readFileSync(`${__dirname}/public/overview.html`, 'utf-8');
+// 1) GLOBAL MIDDLEWARES
+// Set security HTTP headers
+app.use(helmet());
+
+// Development logging
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
+// Limit requests from same API
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many requests from this IP, please try again in an hour!'
+});
+app.use('/api', limiter);
+
+// Body parser, reading data from body into req.body
+app.use(express.json({ limit: '10kb' }));
+
+// Data sanitization against NoSQL query injection
+app.use(mongoSanitize());
+
+// Data sanitization against XSS
+app.use(xss());
+
+// Prevent parameter pollution
+app.use(
+  hpp({
+    whitelist: [
+      'duration',
+      'ratingsQuantity',
+      'ratingsAverage',
+      'maxGroupSize',
+      'difficulty',
+      'price'
+    ]
+  })
+);
+
+// Serving static files
 app.use(express.static(`${__dirname}/public`));
 
-// TASK: ... Routes
-const toursRouter = require('./routes/tourRoute');
-const usersRouter = require('./routes/userRoute');
-const AppError = require('./utils/appError');
-const globalErrorHandler = require('./controllers/errorController');
-
-// INFO: Middleware
-if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'));
-}
-app.use(express.json());
-
+// Test middleware
 app.use((req, res, next) => {
-    req.requestTime = new Date().toISOString();
-    next();
+  req.requestTime = new Date().toISOString();
+  // console.log(req.headers);
+  next();
 });
 
-// TEMP: ==================================================
-app.get(['/', '/overview'], (req, res) => {
-    res.status(200).redirect('/overview.html');
-});
-// app.post('/', (req, res) => {
-//   res.send('You can post to this endpoint...');
-// });
+// 3) ROUTES
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
 
-// TEMP: ==================================================
-// INFO: API (CRUD) Operations (Routed to tourRoute.js & userRoute.js)
-// app.get('/api/v1/tours', getAllTours); // TODO: GET All Tours
-// app.route('/api/v1/tours').get(getAllTours); // TODO: GET All Tours (Route)
-// app.get('/api/v1/tours/:id', getTour); // TODO: GET Tour By ID
-// app.post('/api/v1/tours', createTour); // TODO: Create Tour (POST)
-// app.patch('/api/v1/tours/:id', updateTour); // TODO: Update Tour By ID (PATCH)
-// app.delete('/api/v1/tours/:id', deleteTour); // TODO: Delete Tour By ID (DELETE)
-
-// TODO: ROUTES
-// INFO: (moved to routes/tourRoute.js & routes/userRoute.js)
-app.use('/api/v1/tours', toursRouter);
-app.use('/api/v1/users', usersRouter);
-
-// TODO: ERROR HANDLING FOR UNHANDLED ROUTES
-app.use((req, res, next) => {
-    // const err = new Error(`Can't find ${req.originalUrl} on this server!`);
-    // err.statusCode = 404;
-    // err.status = 'fail';
-    // next(err);
-    next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+app.all('*', (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
 app.use(globalErrorHandler);
 
-// TODO: Listen Server
-// INFO : (moved to server.js)
 module.exports = app;
